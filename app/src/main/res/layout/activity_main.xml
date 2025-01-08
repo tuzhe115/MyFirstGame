@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/r0"
+            style="@style/TableRow">
+
+            <TextView
+                style="@style/Cell.Left"
+                android:layout_marginTop="0dp" />
+
+            <TextView
+                style="@style/Cell.Middle"
+                android:layout_marginTop="0dp" />
+
+            <TextView
+                style="@style/Cell.Right"
+                android:layout_marginTop="0dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r1"
+            style="@style/TableRow">
+
+            <TextView style="@style/Cell.Left" />
+
+            <TextView style="@style/Cell.Middle" />
+
+            <TextView style="@style/Cell.Right" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r2"
+            style="@style/TableRow">
+
+            <TextView
+                style="@style/Cell.Left"
+                android:layout_marginBottom="0dp" />
+
+            <TextView
+                style="@style/Cell.Middle"
+                android:layout_marginBottom="0dp" />
+
+            <TextView
+                style="@style/Cell.Right"
+                android:layout_marginBottom="0dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/turnTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/turn"
+        android:textAlignment="center"
+        android:textSize="64sp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resetButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/table_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>
