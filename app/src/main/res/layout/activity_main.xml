@@ -30,6 +30,10 @@
                 android:layout_marginTop="0dp" />
 
             <TextView
+                style="@style/Cell.MiddleTwo"
+                android:layout_marginTop="0dp" />
+
+            <TextView
                 style="@style/Cell.Right"
                 android:layout_marginTop="0dp" />
         </TableRow>
@@ -42,6 +46,8 @@
 
             <TextView style="@style/Cell.Middle" />
 
+            <TextView style="@style/Cell.MiddleTwo" />
+
             <TextView style="@style/Cell.Right" />
 
         </TableRow>
@@ -50,12 +56,30 @@
             android:id="@+id/r2"
             style="@style/TableRow">
 
+            <TextView style="@style/Cell.Left" />
+
+            <TextView style="@style/Cell.Middle" />
+
+            <TextView style="@style/Cell.MiddleTwo" />
+
+            <TextView style="@style/Cell.Right" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r3"
+            style="@style/TableRow">
+
             <TextView
                 style="@style/Cell.Left"
                 android:layout_marginBottom="0dp" />
 
             <TextView
                 style="@style/Cell.Middle"
+                android:layout_marginBottom="0dp" />
+
+            <TextView
+                style="@style/Cell.MiddleTwo"
                 android:layout_marginBottom="0dp" />
 
             <TextView

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         startNewGame(true)
     }
 
-    var gameBoard: Array<CharArray> = Array(3) { CharArray(3) }
+    var gameBoard: Array<CharArray> = Array(4) { CharArray(4) }
     var turn = 'X'
     var turnTextView: TextView? = null
     var tableLayout: TableLayout? = null
@@ -75,17 +75,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun isWinner (gameBoard:Array<CharArray>, w: Char): Boolean {
         for (i in 0 until gameBoard.size) {
-            if (gameBoard[i][0] == w && gameBoard[i][1] == w && gameBoard[i][2] == w) {
+            if (gameBoard[i][0] == w && gameBoard[i][1] == w && gameBoard[i][2] == w && gameBoard[i][3] == w) {
                 return true
             }
 
-            if (gameBoard[0][i] == w && gameBoard[1][i] == w && gameBoard[2][i] == w) {
+            if (gameBoard[0][i] == w && gameBoard[1][i] == w && gameBoard[2][i] == w && gameBoard[3][i] == w) {
                 return true
             }
         }
 
-        if ((gameBoard[0][0] == w && gameBoard[1][1] == w && gameBoard[2][2] == w) ||
-            (gameBoard[0][2] == w && gameBoard[1][1] == w && gameBoard[2][0] == w)){
+        if ((gameBoard[0][0] == w && gameBoard[1][1] == w && gameBoard[2][2] == w && gameBoard[3][3] == w) ||
+            (gameBoard[0][3] == w && gameBoard[1][2] == w && gameBoard[2][1] == w && gameBoard[3][0] == w)){
             return true
         }
         return false

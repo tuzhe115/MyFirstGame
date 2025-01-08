@@ -9,8 +9,8 @@
     </style>
 
     <style name = "Cell">
-        <item name ="android:layout_width">100dp</item>
-        <item name ="android:layout_height">100dp</item>
+        <item name ="android:layout_width">70dp</item>
+        <item name ="android:layout_height">70dp</item>
         <item name ="android:gravity">center</item>
         <item name ="android:background">@android:color/white</item>
         <item name ="android:layout_marginTop">@dimen/cell_margin</item>
@@ -32,8 +32,15 @@
 
     </style>>
 
-    <style name = "Cell.Right">
+    <style name = "Cell.MiddleTwo">
         <item name = "android:layout_column">2</item>
+        <item name = "android:layout_marginRight">@dimen/cell_margin</item>
+        <item name = "android:layout_marginLeft">@dimen/cell_margin</item>
+
+    </style>>
+
+    <style name = "Cell.Right">
+        <item name = "android:layout_column">3</item>
         <item name = "android:layout_marginLeft">@dimen/cell_margin</item>
     </style>
 
