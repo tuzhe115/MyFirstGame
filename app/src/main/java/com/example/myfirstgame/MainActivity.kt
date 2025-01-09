@@ -315,6 +315,15 @@ class MainActivity : AppCompatActivity() {
             db.close()
             return score
         }
+
+        // Function for deleting player data
+        fun deletePlayer(playerName: String) {
+            val db = writableDatabase
+            db.delete(TABLE_NAME, "$COLUMN_PLAYER_NAME = ?", arrayOf(playerName))
+            db.close()
+        }
+
+
     }
 
 }
