@@ -20,6 +20,9 @@ import android.database.Cursor
 
 class MainActivity : AppCompatActivity() {
 
+    // Source:https://developer.android.com/kotlin/common-patterns
+
+    // Initialize variables for player names for latter functions
     private lateinit var player1Name: String
     private lateinit var player2Name: String
 
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         // Add startNewGame function to reset button from base code
         resetButton!!.setOnClickListener() {startNewGame(false)}
 
+        // Set up score button to score page
         val scoreButton = findViewById<Button>(R.id.viewScoreButton)
 
         scoreButton.setOnClickListener {
@@ -46,14 +50,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Get player names from shared preferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("PlayerData", MODE_PRIVATE)
+        // Store player names as default values if player names are empty
         player1Name = sharedPreferences.getString("player1Name", "Player 1") ?: "Player 1"
         player2Name = sharedPreferences.getString("player2Name", "Player 2") ?: "Player 2"
 
         val currentPlayerTextView = findViewById<TextView>(R.id.currentPlayerTextView)
-
+        // Update current player text
         updateCurrentPlayerText(currentPlayerTextView)
 
+        // Set up register button to register page
         val registerButton = findViewById<Button>(R.id.registerButton)
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -78,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         turn = 'X'
         turnTextView?.text =
                 String.format(resources.getString(R.string.turn), turn)
+        // Update current player text
         updateCurrentPlayerText(currentPlayerTextView)
         // Initialize game board and cells. Set click listeners for cells to be cellClickListener from base code
         for (i in 0 until gameBoard.size) {
@@ -93,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Function for updating current player text
     private fun updateCurrentPlayerText(textView: TextView) {
         val currentPlayerName = if (turn == 'X') player1Name else player2Name
         textView.text = getString(R.string.current_player, currentPlayerName)
@@ -169,16 +178,22 @@ class MainActivity : AppCompatActivity() {
         // Update game status and database
         if (isWinner(gameBoard, 'X')) {
             state  = String.format(resources.getString(R.string.winner), player1Name)
+
+            // Update database with player1 winning and player2 losing
             database.addOrUpdatePlayer(player1Name, isWin = true, isDraw = false)
             database.addOrUpdatePlayer(player2Name, isWin = false, isDraw = false)
 
         } else if (isWinner(gameBoard, 'O')) {
             state  = String.format(resources.getString(R.string.winner), player2Name)
+
+            // Update database with player1 losing and player2 winning
             database.addOrUpdatePlayer(player2Name, isWin = true, isDraw = false)
             database.addOrUpdatePlayer(player1Name, isWin = false, isDraw = false)
         } else {
             if (isBoardFull(gameBoard)) {
                 state = resources.getString(R.string.draw)
+
+                // Update database with player1 drawing and player2 drawing
                 database.addOrUpdatePlayer(player1Name, isWin = false, isDraw = true)
                 database.addOrUpdatePlayer(player2Name, isWin = false, isDraw = true)
             }
@@ -197,8 +212,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Source: https://developer.android.com/training/data-storage/sqlite
+    // Set up database for storing players' score
     class ScoreDb(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
+        // Source: https://medium.com/@appdevinsights/companion-object-in-kotlin-c3a1203cd63c
+        // Initialize the variables for the database in companion object
         companion object {
             const val DB_VERSION = 1
             const val DB_NAME = "Score.db"
@@ -210,6 +228,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onCreate(db: SQLiteDatabase) {
+
+            // Create table for storing players' score
             val createTableQuery = """
             CREATE TABLE $TABLE_NAME (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -222,16 +242,19 @@ class MainActivity : AppCompatActivity() {
             db.execSQL(createTableQuery)
         }
 
+        // Function for upgrading database version
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
             db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
             onCreate(db)
         }
 
         // Source: https://developer.android.com/reference/android/database/Cursor
+        // Function for adding new player or updating existing players' score
         fun addOrUpdatePlayer(playerName: String, isWin: Boolean, isDraw: Boolean) {
             val db = writableDatabase
             val cursor: Cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_PLAYER_NAME = ?", arrayOf(playerName))
 
+            // Check if player exists and update score
             if (cursor.moveToFirst()) {
                 // Update existing player
                 val currentWins = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_WINS))
@@ -262,8 +285,10 @@ class MainActivity : AppCompatActivity() {
             db.close()
         }
 
+        // Function for getting score from the database
         fun getScore(): List<Map<String, Any>> {
             val db = readableDatabase
+            // Variable for storing score
             val score = mutableListOf<Map<String, Any>>()
             val cursor = db.query(
                 TABLE_NAME, null, null, null, null, null,
@@ -276,6 +301,7 @@ class MainActivity : AppCompatActivity() {
                 val draws = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_DRAWS))
                 val losses = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_LOSSES))
 
+                // Storing scores
                 score.add(
                     mapOf(
                         "playerName" to playerName,

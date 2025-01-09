@@ -111,6 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView for displaying current player's name -->
     <TextView
         android:id="@+id/currentPlayerTextView"
         android:layout_width="wrap_content"
@@ -133,6 +134,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/table_layout" />
 
+    <!-- Set up view score button -->
     <Button
         android:id="@+id/viewScoreButton"
         android:layout_width="wrap_content"
@@ -144,6 +146,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
+    <!-- Set up register button -->
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
