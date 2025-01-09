@@ -8,7 +8,9 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
+    <!-- Set up table layout from base code-->
     <TableLayout
+
         android:id="@+id/table_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Set up table row and text view from base code -->
         <TableRow
             android:id="@+id/r0"
             style="@style/TableRow">
@@ -29,6 +32,7 @@
                 style="@style/Cell.Middle"
                 android:layout_marginTop="0dp" />
 
+            <!-- Add one more text view to implement 4x4 grid -->
             <TextView
                 style="@style/Cell.MiddleTwo"
                 android:layout_marginTop="0dp" />
@@ -46,12 +50,14 @@
 
             <TextView style="@style/Cell.Middle" />
 
+            <!-- Add one more text view to implement 4x4 grid -->
             <TextView style="@style/Cell.MiddleTwo" />
 
             <TextView style="@style/Cell.Right" />
 
         </TableRow>
 
+        <!-- Add one more table row to implement 4x4 grid -->
         <TableRow
             android:id="@+id/r2"
             style="@style/TableRow">
@@ -60,6 +66,7 @@
 
             <TextView style="@style/Cell.Middle" />
 
+            <!-- Add one more text view to implement 4x4 grid -->
             <TextView style="@style/Cell.MiddleTwo" />
 
             <TextView style="@style/Cell.Right" />
@@ -78,6 +85,7 @@
                 style="@style/Cell.Middle"
                 android:layout_marginBottom="0dp" />
 
+            <!-- Add one more text view to implement 4x4 grid -->
             <TextView
                 style="@style/Cell.MiddleTwo"
                 android:layout_marginBottom="0dp" />
@@ -90,6 +98,7 @@
 
     </TableLayout>
 
+    <!-- Set up game status text view from base code -->
     <TextView
         android:id="@+id/turnTextView"
         android:layout_width="match_parent"
@@ -102,6 +111,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/currentPlayerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/table_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/turnTextView" />
+
+    <!-- Set up reset button from base code -->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -111,4 +132,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/table_layout" />
+
+    <Button
+        android:id="@+id/viewScoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/view_score"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/go_to_register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

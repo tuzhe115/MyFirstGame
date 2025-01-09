@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    //Styles for TableRow from base code
     <style name = "TableRow">
         <item name = "android:layout_width">match_parent</item>
         <item name = "android:layout_height">wrap_content</item>
@@ -8,6 +9,7 @@
         <item name = "android:background">@android:color/black</item>
     </style>
 
+    //Styles for Cell from base code
     <style name = "Cell">
         <item name ="android:layout_width">70dp</item>
         <item name ="android:layout_height">70dp</item>
@@ -20,10 +22,13 @@
         <item name ="android:clickable">true</item>
     </style>
 
+    //Styles for Left Cells from base code
     <style name = "Cell.Left">
         <item name = "android:layout_column">0</item>
         <item name = "android:layout_marginRight">@dimen/cell_margin</item>
     </style>
+
+    //Styles for Middle Cells from base code
 
     <style name = "Cell.Middle">
         <item name = "android:layout_column">1</item>
@@ -32,6 +37,8 @@
 
     </style>>
 
+    //Styles for Middle Left Cells to implement 4x4 grid
+
     <style name = "Cell.MiddleTwo">
         <item name = "android:layout_column">2</item>
         <item name = "android:layout_marginRight">@dimen/cell_margin</item>
@@ -39,12 +46,12 @@
 
     </style>>
 
+    //Styles for Right Cells from base code
+
     <style name = "Cell.Right">
         <item name = "android:layout_column">3</item>
         <item name = "android:layout_marginLeft">@dimen/cell_margin</item>
     </style>
-
-
 
 
 

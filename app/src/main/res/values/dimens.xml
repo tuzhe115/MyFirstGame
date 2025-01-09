@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    //Set up padding, margin,and text sizes from base code
     <dimen name ="board_padding">16dp</dimen>
     <dimen name ="cell_margin">2dp</dimen>>
     <dimen name ="large_text">64sp</dimen>>
