@@ -17,4 +17,9 @@
     <string name="current_player">Current Player: %1$s</string>
     <string name="go_to_register">Go to Register</string>
     <string name="delete_player">Delete Player</string>
+    <string name="homeTab">Home</string>
+    <string name="scoreTab">Score</string>
+    <string name="registerTab">Register</string>
+
+
 </resources>

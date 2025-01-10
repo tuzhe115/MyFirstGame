@@ -3,8 +3,6 @@ package com.example.myfirstgame
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.widget.TableLayout
 import android.widget.TextView
 import android.widget.Button
@@ -18,6 +16,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 class MainActivity : AppCompatActivity() {
 
     // Source:https://developer.android.com/kotlin/common-patterns
@@ -30,11 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
         // Store references to widgets in variables from base code
         turnTextView = findViewById(R.id.turnTextView) as TextView
         tableLayout = findViewById(R.id.table_layout) as TableLayout
@@ -43,12 +39,13 @@ class MainActivity : AppCompatActivity() {
         resetButton!!.setOnClickListener() {startNewGame(false)}
 
         // Set up score button to score page
+        /*
         val scoreButton = findViewById<Button>(R.id.viewScoreButton)
 
         scoreButton.setOnClickListener {
             val intent = Intent(this, ScoreActivity::class.java)
             startActivity(intent)
-        }
+        }*/
 
         // Get player names from shared preferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("PlayerData", MODE_PRIVATE)
@@ -60,12 +57,10 @@ class MainActivity : AppCompatActivity() {
         // Update current player text
         updateCurrentPlayerText(currentPlayerTextView)
 
-        // Set up register button to register page
-        val registerButton = findViewById<Button>(R.id.registerButton)
-        registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+        // Set up bottom navigation
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        setupBottomNavigation(this, bottomNavigationView)
 
         // Start new game from base code
         startNewGame(true)
@@ -325,5 +320,35 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    // Function for setting up bottom navigation
+    fun setupBottomNavigation(activity: AppCompatActivity, bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                // Do nothing when clicking home
+                R.id.nav_home -> {
+                    true
+                }
+                // Go to score page
+                R.id.nav_score -> {
+                    if (activity !is ScoreActivity) {
+                        val intent = Intent(activity, ScoreActivity::class.java)
+                        activity.startActivity(intent)
+                    }
+                    true
+                }
+                // Go to register page
+                R.id.nav_register -> {
+                    if (activity !is RegisterActivity) {
+                        val intent = Intent(activity, RegisterActivity::class.java)
+                        activity.startActivity(intent)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
 
 }
