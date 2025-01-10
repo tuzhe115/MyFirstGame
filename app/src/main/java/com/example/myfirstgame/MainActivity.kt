@@ -1,5 +1,6 @@
 package com.example.myfirstgame
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,8 @@ import android.database.Cursor
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+import android.os.CountDownTimer
+
 class MainActivity : AppCompatActivity() {
 
     // Source:https://developer.android.com/kotlin/common-patterns
@@ -25,6 +28,12 @@ class MainActivity : AppCompatActivity() {
     // Initialize variables for player names for latter functions
     private lateinit var player1Name: String
     private lateinit var player2Name: String
+
+    // Source: https://www.geeksforgeeks.org/countdowntimer-in-android-with-example/
+    // Initialize variables for timer
+    private lateinit var timerTextView: TextView
+    private var turnTimer: CountDownTimer? = null
+    private val turnDuration = 6000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,15 +47,6 @@ class MainActivity : AppCompatActivity() {
         // Add startNewGame function to reset button from base code
         resetButton!!.setOnClickListener() {startNewGame(false)}
 
-        // Set up score button to score page
-        /*
-        val scoreButton = findViewById<Button>(R.id.viewScoreButton)
-
-        scoreButton.setOnClickListener {
-            val intent = Intent(this, ScoreActivity::class.java)
-            startActivity(intent)
-        }*/
-
         // Get player names from shared preferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("PlayerData", MODE_PRIVATE)
         // Store player names as default values if player names are empty
@@ -57,10 +57,14 @@ class MainActivity : AppCompatActivity() {
         // Update current player text
         updateCurrentPlayerText(currentPlayerTextView)
 
+        // Source:https://www.geeksforgeeks.org/bottomnavigationview-inandroid/
         // Set up bottom navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         setupBottomNavigation(this, bottomNavigationView)
+
+        // Set up timer textview
+        timerTextView = findViewById(R.id.timerTextView)
 
         // Start new game from base code
         startNewGame(true)
@@ -73,6 +77,8 @@ class MainActivity : AppCompatActivity() {
     var turnTextView: TextView? = null
     var tableLayout: TableLayout? = null
     var resetButton: Button? = null
+    var timeUp: Boolean = true
+    var count: Int = 0
 
     // Function for starting new game from base code
     private fun startNewGame(setClickListener: Boolean) {
@@ -82,6 +88,9 @@ class MainActivity : AppCompatActivity() {
                 String.format(resources.getString(R.string.turn), turn)
         // Update current player text
         updateCurrentPlayerText(currentPlayerTextView)
+
+        // Start timer at the beginning of the game
+        startTimer()
         // Initialize game board and cells. Set click listeners for cells to be cellClickListener from base code
         for (i in 0 until gameBoard.size) {
             for (j in 0 until gameBoard[i].size) {
@@ -96,6 +105,56 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Function for starting timer
+    private fun startTimer() {
+        // Cancel the last timer
+        turnTimer?.cancel()
+        val currentPlayerTextView = findViewById<TextView>(R.id.currentPlayerTextView)
+        turnTimer = object : CountDownTimer(turnDuration, 1000) {
+            @SuppressLint("SetTextI18n")
+
+            // Show the time ticking
+            override fun onTick(millisUntilFinished: Long) {
+                timerTextView.text = "Time: ${millisUntilFinished / 1000}s"
+            }
+
+            // Show the time is up, change turn, and start timer
+            override fun onFinish() {
+                timerTextView.text = getString(R.string.time_0s)
+                timeUp = false
+
+                turn = if ('X' == turn) 'O' else 'X'
+
+                updateCurrentPlayerText(currentPlayerTextView)
+
+                // Update turn text
+                turnTextView?.text =
+                    String.format(resources.getString(R.string.turn), turn)
+
+                startTimer()
+
+            }
+        }.start()
+    }
+
+    // Function for clearing random cell every two moves
+    private fun clearRandomCell() {
+        // Storing game board inside emptyCells list
+        val emptyCells = mutableListOf<Pair<Int, Int>>()
+        for (i in 0 until gameBoard.size) {
+            for (j in 0 until gameBoard[i].size) {
+                emptyCells.add(Pair(i, j))
+            }
+        }
+
+        // Choose a random cell from emptyCells list and clear it
+        val(randomRow, randomColumn) = emptyCells.random()
+        gameBoard[randomRow][randomColumn] = ' '
+        ((tableLayout?.getChildAt(randomRow) as android.widget.TableRow).getChildAt(randomColumn) as
+                TextView).text = ""
+    }
+
+
     // Function for updating current player text
     private fun updateCurrentPlayerText(textView: TextView) {
         val currentPlayerName = if (turn == 'X') player1Name else player2Name
@@ -105,6 +164,9 @@ class MainActivity : AppCompatActivity() {
     // Function for cell click listener from base code
     private fun cellClickListener(row: Int, column: Int) {
         val currentPlayerTextView = findViewById<TextView>(R.id.currentPlayerTextView)
+
+        // Start timer for the next player after clicking cell
+        startTimer()
         // Check if cell is empty
         if (gameBoard[row][column] == ' ') {
 
@@ -124,6 +186,15 @@ class MainActivity : AppCompatActivity() {
             // Update turn text
             turnTextView?.text =
                     String.format(resources.getString(R.string.turn), turn)
+
+            // Count the number of moves
+            count++
+
+            // Clear a cell every two moves
+            if (count == 2) {
+                clearRandomCell()
+                count = 0
+            }
             // Check game status
             checkGameStatus()
         }

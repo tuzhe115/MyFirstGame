@@ -20,6 +20,8 @@
     <string name="homeTab">Home</string>
     <string name="scoreTab">Score</string>
     <string name="registerTab">Register</string>
+    <string name="time_5">Time: 5</string>
+    <string name="time_0s">Time: 0s</string>
 
 
 </resources>
